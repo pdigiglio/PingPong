@@ -1,0 +1,8 @@
+{
+    "title": "PingPong",
+    "identifier": "com.pdigiglio.example.PingPong",
+    "orientation": "landscape",
+    "versioncode": 1,
+    "versionname": "1.0.0",
+    "stage": "test"
+}
