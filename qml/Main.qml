@@ -7,14 +7,6 @@ GameWindow {
     screenWidth: 960
     screenHeight: 640
 
-
-    // You get free licenseKeys from https://felgo.com/licenseKey
-    // With a licenseKey you can:
-    //  * Publish your games & apps for the app stores
-    //  * Remove the Felgo Splash Screen or set a custom one (available with the Pro Licenses)
-    //  * Add plugins to monetize, analyze & improve your apps (available with the Pro Licenses)
-    //licenseKey: "<generate one from https://felgo.com/licenseKey>"
-
     // create and remove entities at runtime
     EntityManager {
         id: entityManager
@@ -24,13 +16,16 @@ GameWindow {
     MenuScene {
         id: menuScene
 
-        // listen to the button signals of the scene and change the state according to it
-        onSelectLevelPressed: window.state = "selectLevel"
+        onPlayPressed:    window.state = "game"
         onCreditsPressed: window.state = "credits"
         // the menu scene is our start scene, so if back is pressed there we ask the user if he wants to quit the application
         onBackButtonPressed: {
-            nativeUtils.displayMessageBox(qsTr("Really quit the game?"), "", 2);
+            var title = qsTr("Really quit the game?");
+            var description = "";
+            var buttons = 2;
+            nativeUtils.displayMessageBox(title, description, buttons);
         }
+
         // listen to the return value of the MessageBox
         Connections {
             target: nativeUtils
@@ -40,18 +35,6 @@ GameWindow {
                     Qt.quit()
             }
         }
-    }
-
-    // scene for selecting levels
-    SelectLevelScene {
-        id: selectLevelScene
-        onLevelPressed: {
-            // selectedLevel is the parameter of the levelPressed signal
-            gameScene.setLevel(selectedLevel)
-            window.state = "game"
-
-        }
-        onBackButtonPressed: window.state = "menu"
     }
 
     // credits scene
@@ -76,11 +59,6 @@ GameWindow {
             name: "menu"
             PropertyChanges {target: menuScene; opacity: 1}
             PropertyChanges {target: window; activeScene: menuScene}
-        },
-        State {
-            name: "selectLevel"
-            PropertyChanges {target: selectLevelScene; opacity: 1}
-            PropertyChanges {target: window; activeScene: selectLevelScene}
         },
         State {
             name: "credits"

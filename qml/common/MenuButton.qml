@@ -6,9 +6,12 @@ Rectangle {
     width: buttonText.width+ paddingHorizontal*2
     height: buttonText.height+ paddingVertical*2
 
-    color: "#e9e9e9"
+    //color: "#e9e9e9"
+    color: "transparent"
+    border.color: "yellow"
+
     // round edges
-    radius: 10
+    //radius: 10
 
     // the horizontal margin from the Text element to the Rectangle at both the left and the right side.
     property int paddingHorizontal: 10
@@ -16,16 +19,18 @@ Rectangle {
     property int paddingVertical: 5
 
     // access the text of the Text component
-    property alias text: buttonText.text
+    //property alias text: buttonText.text
+    property string text: "button"
 
     // this handler is called when the button is clicked.
     signal clicked
 
-    Text {
+    RetroText {
         id: buttonText
         anchors.centerIn: parent
         font.pixelSize: 18
         color: "black"
+        text: "[ " + button.text + " ]"
     }
 
     MouseArea {
