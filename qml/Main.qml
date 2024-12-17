@@ -1,6 +1,8 @@
 import Felgo 3.0
 import QtQuick 2.0
+
 import "scenes"
+import "game" as Game
 
 GameWindow {
     id: window
@@ -44,7 +46,7 @@ GameWindow {
     }
 
     // game scene to play a level
-    GameScene {
+    Game.GameScene {
         id: gameScene
         onBackButtonPressed: window.state = "selectLevel"
     }

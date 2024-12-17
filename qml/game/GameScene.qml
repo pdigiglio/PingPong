@@ -5,8 +5,13 @@ import "../common"
 SceneBase {
     id: gameScene
 
-    property string lineColor: "yellow"
+    property int p1Score: 0
+    property string p1Name:  "AAA"
 
+    property int p2Score: 0
+    property string p2Name:  "BBB"
+
+    property string lineColor: "yellow"
 
     // background (debugging only)
     Rectangle {
@@ -21,6 +26,8 @@ SceneBase {
     }
 
     Rectangle {
+        id: field
+
         anchors.fill: parent
         anchors.topMargin:    10
         anchors.bottomMargin: 10
@@ -29,6 +36,8 @@ SceneBase {
     }
 
     Column {
+        id: fieldSeparator
+
         property int dashCount: 10
         property int dashLen: parent.height / (2 * dashCount)
 
@@ -45,6 +54,46 @@ SceneBase {
                 color: lineColor
             }
         }
+    }
+
+    InfoText {
+        id: p1ScoreText
+
+        anchors.bottom: field.bottom
+        anchors.right:  fieldSeparator.left
+
+        text: p1Score
+        color: lineColor
+    }
+
+    InfoText {
+        id: p1NameText
+
+        anchors.top:   field.top
+        anchors.right: fieldSeparator.left
+
+        text: p1Name
+        color: lineColor
+    }
+
+    InfoText {
+        id: p2ScoreText
+
+        anchors.bottom: field.bottom
+        anchors.left:  fieldSeparator.right
+
+        text: p2Score
+        color: lineColor
+    }
+
+    InfoText {
+        id: p2NameText
+
+        anchors.top:  field.top
+        anchors.left: fieldSeparator.right
+
+        text: p2Name
+        color: lineColor
     }
 
     //// the filename of the current level gets stored here, it is used for loading the
