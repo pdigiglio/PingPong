@@ -9,6 +9,14 @@ GameWindow {
     screenWidth: 960
     screenHeight: 640
 
+    // Force landscape layout.
+    //
+    // NOTE: if the phone gets rotated, the GameWindow will get
+    //       rotated as well but the aspect ratio won't change.
+    //
+    // TODO: prevent rotation altogether.
+    landscape: true
+
     // create and remove entities at runtime
     EntityManager {
         id: entityManager
