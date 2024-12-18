@@ -1,5 +1,6 @@
 import Felgo 3.0
 import QtQuick 2.0
+import QtQuick 2.15
 import "../common"
 
 SceneBase {
@@ -11,7 +12,11 @@ SceneBase {
     property int p2Score: 0
     property string p2Name:  "BBB"
 
-    property string lineColor: "yellow"
+    property string lineColor : "yellow"
+    property string fieldColor: "#47688e"
+
+    // The width of the lines to be drawn on the field.
+    property int fieldLineWidth : 10
 
     // background (debugging only)
     Rectangle {
@@ -19,82 +24,55 @@ SceneBase {
         color: "red"
     }
 
-    // Draw field
-    Rectangle {
-        anchors.fill: parent
-        color: lineColor
-    }
-
-    Rectangle {
+    Field {
         id: field
-
         anchors.fill: parent
-        anchors.topMargin:    10
-        anchors.bottomMargin: 10
 
-        color: "#47688e"
+        fieldColor: parent.fieldColor
+        lineColor : parent.lineColor
+
+        p1Score: parent.p1Score
+        p1Name: parent.p1Name
+
+        p2Score: parent.p2Score
+        p2Name: parent.p2Name
+
+        //infoVisible: false
     }
 
-    Column {
-        id: fieldSeparator
+    Paddle {
+        id: p1Paddle
+        entityId: "p1Paddle"
 
-        property int dashCount: 10
-        property int dashLen: parent.height / (2 * dashCount)
+        dragMinimumY: field.playField.y
+        dragMaximumY: field.playField.y + field.playField.height - p1Paddle.height
 
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: parent.top
-        anchors.topMargin: dashLen / 2
-        spacing: dashLen
+        y: (field.playField.y + field.playField.height - p1Paddle.height) / 2
+        x: field.playField.x + 5
 
-        Repeater {
-            model: parent.dashCount
-            Rectangle {
-                height: parent.dashLen
-                width: 10
-                color: lineColor
-            }
+        DragHandler {
+            target: parent
         }
+
     }
 
-    InfoText {
-        id: p1ScoreText
+    Paddle {
+        id: p2Paddle
+        entityId: "p2Paddle"
 
-        anchors.bottom: field.bottom
-        anchors.right:  fieldSeparator.left
+        dragMinimumY: field.playField.y
+        dragMaximumY: field.playField.y + field.playField.height - p1Paddle.height
 
-        text: p1Score
-        color: lineColor
+        y: (field.playField.y + field.playField.height - p1Paddle.height) / 2
+        x:  field.playField.x + field.playField.width - p2Paddle.width - 5
     }
 
-    InfoText {
-        id: p1NameText
+    //Paddle {
+    //    id: p2Paddle
 
-        anchors.top:   field.top
-        anchors.right: fieldSeparator.left
-
-        text: p1Name
-        color: lineColor
-    }
-
-    InfoText {
-        id: p2ScoreText
-
-        anchors.bottom: field.bottom
-        anchors.left:  fieldSeparator.right
-
-        text: p2Score
-        color: lineColor
-    }
-
-    InfoText {
-        id: p2NameText
-
-        anchors.top:  field.top
-        anchors.left: fieldSeparator.right
-
-        text: p2Name
-        color: lineColor
-    }
+    //    anchors.right: field.right
+    //    anchors.rightMargin: 5
+    //}
 
     //// the filename of the current level gets stored here, it is used for loading the
     //property string activeLevelFileName

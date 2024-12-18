@@ -61,6 +61,7 @@ macx {
 
 DISTFILES += \
     qml/RetroButton.qml \
+    qml/game/Field.qml \
     qml/game/GameScene.qml \
     qml/game/InfoText.qml \
     qml/game/Paddle.qml
