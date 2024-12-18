@@ -5,7 +5,16 @@ Item {
 
     // Allow accessing the actual playField from the outside. Useful
     // for positioning elements and setting drag limits.
-    property alias playField: playField
+    //readonly property alias playField: playField
+
+    readonly property int playFieldTopY:    playField.y
+    readonly property int playFieldBottomY: playField.y + playField.height
+
+    //readonly property int playFieldLeftX:  playField.x
+    //readonly property int playFieldRightX: playField.x + playField.width
+
+    readonly property int playFieldCenterY: playField.y + playField.height / 2
+    //readonly property int playFieldCenterX: playField.x + playField.width  / 2
 
     property bool infoVisible : true
 

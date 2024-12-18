@@ -6,17 +6,19 @@ import "../common"
 SceneBase {
     id: gameScene
 
-    property int p1Score: 0
-    property string p1Name:  "AAA"
+    property int p1Score:  0
+    property string p1Name: "PL1"
 
-    property int p2Score: 0
-    property string p2Name:  "BBB"
+    property int p2Score:  0
+    property string p2Name: "PL2"
 
     property string lineColor : "yellow"
     property string fieldColor: "#47688e"
 
     // The width of the lines to be drawn on the field.
     property int fieldLineWidth : 10
+
+    readonly property int paddleHorizontalMargin : 5
 
     // background (debugging only)
     Rectangle {
@@ -30,6 +32,7 @@ SceneBase {
 
         fieldColor: parent.fieldColor
         lineColor : parent.lineColor
+        lineWidth: parent.fieldLineWidth
 
         p1Score: parent.p1Score
         p1Name: parent.p1Name
@@ -44,28 +47,36 @@ SceneBase {
         id: p1Paddle
         entityId: "p1Paddle"
 
-        dragMinimumY: field.playField.y
-        dragMaximumY: field.playField.y + field.playField.height - p1Paddle.height
+        dragMinimumY: field.playFieldTopY
+        dragMaximumY: field.playFieldBottomY - p1Paddle.height
 
-        y: (field.playField.y + field.playField.height - p1Paddle.height) / 2
-        x: field.playField.x + 5
-
-        DragHandler {
-            target: parent
-        }
-
+        y: field.playFieldCenterY - height / 2
+        anchors.left: field.left
+        anchors.leftMargin: parent.paddleHorizontalMargin
     }
 
     Paddle {
         id: p2Paddle
         entityId: "p2Paddle"
 
-        dragMinimumY: field.playField.y
-        dragMaximumY: field.playField.y + field.playField.height - p1Paddle.height
+        dragMinimumY: field.playFieldTopY
+        dragMaximumY: field.playFieldBottomY - p1Paddle.height
 
-        y: (field.playField.y + field.playField.height - p1Paddle.height) / 2
-        x:  field.playField.x + field.playField.width - p2Paddle.width - 5
+        y: field.playFieldCenterY - height / 2
+        anchors.right: field.right
+        anchors.rightMargin: parent.paddleHorizontalMargin
     }
+
+    //Paddle {
+    //    id: p2Paddle
+    //    entityId: "p2Paddle"
+
+    //    dragMinimumY: field.playField.y
+    //    dragMaximumY: field.playField.y + field.playField.height - p1Paddle.height
+
+    //    y: (field.playField.y + field.playField.height - p1Paddle.height) / 2
+    //    x:  field.playField.x + field.playField.width - p2Paddle.width - 5
+    //}
 
     //Paddle {
     //    id: p2Paddle
