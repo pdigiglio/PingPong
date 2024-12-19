@@ -72,6 +72,37 @@ SceneBase {
             }
         }
 
+        // Make bottom wall bounceable
+        BoxCollider {
+            id: p1LoseCollider
+            bodyType: BodyType.Static
+            anchors.top:    field.playField.top
+            anchors.bottom: field.playField.bottom
+            anchors.left:   field.left
+            width: 1
+
+            fixture.onBeginContact: {
+                console.log("P1 loses")
+                console.log("P2 wins")
+            }
+        }
+
+
+        // Make bottom wall bounceable
+        BoxCollider {
+            id: p2LoseCollider
+            bodyType: BodyType.Static
+            anchors.top:    field.playField.top
+            anchors.bottom: field.playField.bottom
+            anchors.right:  field.right
+            width: 1
+
+            fixture.onBeginContact: {
+                console.log("P1 wins")
+                console.log("P2 loses")
+            }
+        }
+
         //infoVisible: false
     }
 
