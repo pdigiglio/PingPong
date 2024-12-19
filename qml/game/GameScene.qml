@@ -20,12 +20,20 @@ SceneBase {
 
     readonly property int paddleHorizontalMargin : 5
 
+    PhysicsWorld {
+        debugDrawVisible: true
+        z: 1000
+    }
+
     // background (debugging only)
     Rectangle {
         anchors.fill: parent.gameWindowAnchorItem
         color: "red"
     }
 
+    // Draw the playing field. Make sure to insert this before
+    // the paddles and ball, otherwise they'll not be visible.
+    // Otherwise, you could manually specify the "z" property.
     Field {
         id: field
         anchors.fill: parent
@@ -40,6 +48,30 @@ SceneBase {
         p2Score: parent.p2Score
         p2Name: parent.p2Name
 
+        // Make top wall bounceable
+        BoxCollider {
+            id: topWallEntity
+            bodyType: BodyType.Static
+            anchors.top: field.playField.top
+            anchors.bottom: field.top
+
+            fixture.onBeginContact: {
+                ball.bounce(contactNormal, 1);
+            }
+        }
+
+        // Make bottom wall bounceable
+        BoxCollider {
+            id: bottomWallEntity
+            bodyType: BodyType.Static
+            anchors.top:    field.playField.bottom
+            anchors.bottom: field.bottom
+
+            fixture.onBeginContact: {
+                ball.bounce(contactNormal, 1);
+            }
+        }
+
         //infoVisible: false
     }
 
@@ -53,6 +85,8 @@ SceneBase {
         y: field.playFieldCenterY - height / 2
         anchors.left: field.left
         anchors.leftMargin: parent.paddleHorizontalMargin
+
+        onBeginContact: { ball.bounce(contactNormal, 2); }
     }
 
     Paddle {
@@ -65,25 +99,18 @@ SceneBase {
         y: field.playFieldCenterY - height / 2
         anchors.right: field.right
         anchors.rightMargin: parent.paddleHorizontalMargin
+
+        onBeginContact: { ball.bounce(contactNormal, 2); }
     }
 
-    //Paddle {
-    //    id: p2Paddle
-    //    entityId: "p2Paddle"
+    Ball {
+        id: ball
+        entityId: "ball"
 
-    //    dragMinimumY: field.playField.y
-    //    dragMaximumY: field.playField.y + field.playField.height - p1Paddle.height
+        x: 100
+        y: 150
+    }
 
-    //    y: (field.playField.y + field.playField.height - p1Paddle.height) / 2
-    //    x:  field.playField.x + field.playField.width - p2Paddle.width - 5
-    //}
-
-    //Paddle {
-    //    id: p2Paddle
-
-    //    anchors.right: field.right
-    //    anchors.rightMargin: 5
-    //}
 
     //// the filename of the current level gets stored here, it is used for loading the
     //property string activeLevelFileName

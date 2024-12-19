@@ -3,19 +3,25 @@ import QtQuick 2.15 // For DragHandler
 import Felgo 3.0
 
 
-Rectangle {
-    id: rectangle
+EntityBase {
+    id: paddleEntity
+    entityType: "paddle"
 
-    // Use a different color while dragging (for debugging)
-    color: dragHandler.active ? "white" : "lightgray"
-
-    height:  75
-    width :  15
-
-    property alias entityId : paddleEntity.entityId
+    height: 75
+    width : 15
 
     property int dragMinimumY: 0
     property int dragMaximumY: 0
+
+    signal beginContact(other: Fixture, contactNormal: point)
+
+    Rectangle {
+        id: rectangle
+        anchors.fill: parent
+
+        // Use a different color while dragging (for debugging)
+        color: dragHandler.active ? "white" : "lightgray"
+    }
 
     DragHandler {
         id: dragHandler
@@ -33,8 +39,11 @@ Rectangle {
         yAxis.maximum: parent.dragMaximumY
     }
 
-    EntityBase {
-        id: paddleEntity
-        entityType: "paddle"
+    BoxCollider {
+        anchors.fill: parent
+        bodyType: Body.Static
+        fixture.onBeginContact: {
+            paddleEntity.beginContact(other, contactNormal);
+        }
     }
 }
