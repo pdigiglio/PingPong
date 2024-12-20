@@ -60,7 +60,6 @@ macx {
 }
 
 DISTFILES += \
-    qml/RetroButton.qml \
     qml/game/Ball.qml \
     qml/game/Field.qml \
     qml/game/GameScene.qml \
