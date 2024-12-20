@@ -65,4 +65,5 @@ DISTFILES += \
     qml/game/Field.qml \
     qml/game/GameScene.qml \
     qml/game/InfoText.qml \
-    qml/game/Paddle.qml
+    qml/game/Paddle.qml \
+    qml/scenes/GameEndedScene.qml

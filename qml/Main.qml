@@ -64,7 +64,17 @@ GameWindow {
     Game.GameScene {
         id: gameScene
         onBackButtonPressed: window.state = "menu"
-        onGameEnded:         window.state = "gameEnded"
+        onGameEnded: {
+            gameEndedScene.text = winner + " WINS!";
+            window.state = "gameEnded"
+        }
+    }
+
+    GameEndedScene {
+        id: gameEndedScene
+
+        onKeepPlayingButtonPressed : window.state = "menu"
+        onBackButtonPressed:         window.state = "menu"
     }
 
     // menuScene is our first scene, so set the state to menu initially
@@ -80,7 +90,7 @@ GameWindow {
         },
         State {
             name: "gameEnded"
-            PropertyChanges {target: menuScene; opacity: 1}
+            PropertyChanges {target: gameEndedScene; opacity: 1}
             PropertyChanges {target: window; activeScene: menuScene}
         },
         State {
