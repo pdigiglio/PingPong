@@ -51,7 +51,7 @@ SceneBase {
         // Make top wall bounceable
         BoxCollider {
             id: topWallEntity
-            bodyType: BodyType.Static
+            bodyType: Body.Static
             anchors.top: field.playField.top
             anchors.bottom: field.top
 
@@ -63,7 +63,7 @@ SceneBase {
         // Make bottom wall bounceable
         BoxCollider {
             id: bottomWallEntity
-            bodyType: BodyType.Static
+            bodyType: Body.Static
             anchors.top:    field.playField.bottom
             anchors.bottom: field.bottom
 
@@ -75,7 +75,7 @@ SceneBase {
         // Make bottom wall bounceable
         BoxCollider {
             id: p1LoseCollider
-            bodyType: BodyType.Static
+            bodyType: Body.Static
             anchors.top:    field.playField.top
             anchors.bottom: field.playField.bottom
             anchors.left:   field.left
@@ -91,7 +91,7 @@ SceneBase {
         // Make bottom wall bounceable
         BoxCollider {
             id: p2LoseCollider
-            bodyType: BodyType.Static
+            bodyType: Body.Static
             anchors.top:    field.playField.top
             anchors.bottom: field.playField.bottom
             anchors.right:  field.right
