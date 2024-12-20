@@ -1,5 +1,6 @@
 import Felgo 3.0
 import QtQuick 2.0
+
 import "../common"
 
 SceneBase {
@@ -8,7 +9,7 @@ SceneBase {
     // background
     Rectangle {
         anchors.fill: parent.gameWindowAnchorItem
-        color: "#49a349"
+        color: "#47688e"
     }
 
     // back button to leave scene
@@ -22,10 +23,27 @@ SceneBase {
         onClicked: backButtonPressed()
     }
 
-    // credits
-    Text {
-        text: "Credits to: YOU :)"
-        color: "white"
+    // Credits
+    Column {
         anchors.centerIn: parent
+
+        RetroText {
+            text: "PING PONG"
+            color: "white"
+            font.pixelSize: 24
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
+
+        RetroText {
+            text: "Author:  Paolo Di Giglio"
+            color: "white"
+            font.pixelSize: 18
+        }
+
+        RetroText {
+            text: "Version: 1.0.0"
+            color: "white"
+            font.pixelSize: 18
+        }
     }
 }
