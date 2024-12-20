@@ -38,7 +38,7 @@ SceneBase {
         }
         MenuButton {
             text: "Back"
-            onClicked: backButtonPressed()()
+            onClicked: backButtonPressed()
             anchors.horizontalCenter: parent.horizontalCenter
         }
     }
