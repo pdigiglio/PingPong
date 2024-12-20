@@ -1,35 +1,153 @@
 import Felgo 3.0
 import QtQuick 2.0
 
+/*!
+    \qmltype Field
+    \inqmlmodule Game
+
+    A component representing the play field.
+ */
 Item {
     id: field
 
     // Allow accessing the actual playField from the outside. Useful
     // for positioning elements and setting drag limits.
+
+
+    /*!
+        \qmlproperty Rectangle playField
+
+        The actual play field (excluding the top and bottom lines).
+        Accessing this property is useful for positioning elements
+        and setting drag limits.
+     */
     readonly property alias playField: playField
 
+    /*!
+        \qmlproperty int playFieldTopY
+
+        The \c y coordinate of the play field top.
+     */
     readonly property int playFieldTopY:    playField.y
+
+    /*!
+        \qmlproperty int playFieldBottomY
+
+        The \c y coordinate of the play field bottom.
+     */
     readonly property int playFieldBottomY: playField.y + playField.height
 
+    /*!
+        \qmlproperty int playFieldCenterY
+
+        The \c y coordinate of the play field center.
+     */
     readonly property int playFieldCenterY: playField.y + playField.height / 2
+
+    /*!
+        \qmlproperty int playFieldCenterX
+
+        The \c x coordinate of the play field center.
+     */
     readonly property int playFieldCenterX: playField.x + playField.width  / 2
 
+    /*!
+        \qmlproperty bool infoVisible
+
+        Get or set whether the overlay text about the player information should be visible.
+        By default, the this property is \c true.
+     */
     property bool infoVisible : true
 
+    /*!
+        \qmlproperty string lineColor
+
+        The color of the field line.
+     */
     property string lineColor : "yellow"
+
+    /*!
+        \qmlproperty int lineWidth
+
+        The width of the field line.
+     */
     property int lineWidth: 10
 
+    /*!
+        \qmlproperty string fieldColor
+
+        The color of the field.
+     */
     property string fieldColor: "blue"
 
+    /*!
+        \qmlproperty int p1Score
+
+        The score of the first player.
+     */
     property int p1Score : 0
+
+    /*!
+        \qmlproperty string p1Name
+
+        The name of the first player.
+     */
     property string p1Name: "PL1"
 
+    /*!
+        \qmlproperty int p2Score
+
+        The score of the second player.
+     */
     property int p2Score : 0
+
+    /*!
+        \qmlproperty string p2Name
+
+        The name of the second player.
+     */
     property string p2Name: "PL2"
 
+    /*!
+        \qmlsignal beginContactWithTopWall(Fixture other, point contactNormal)
+
+        \a other         The fixture of the other colliding body.
+        \a contactNormal The direction of the contact normal.
+
+        A signal that gets emitted when the \c BoxCollider of the top wall detects a collision.
+     */
     signal beginContactWithTopWall(other: Fixture, contactNormal: point)
+
+    /*!
+        \qmlsignal beginContactWithBottomWall(Fixture other, point contactNormal)
+
+        \a other         The fixture of the other colliding body.
+        \a contactNormal The direction of the contact normal.
+
+        A signal that gets emitted when the \c BoxCollider of the bottom wall detects a collision.
+     */
     signal beginContactWithBottomWall(other: Fixture, contactNormal: point)
+
+    /*!
+        \qmlsignal beginContactWithLeftBorder(Fixture other, point contactNormal)
+
+        \a other         The fixture of the other colliding body.
+        \a contactNormal The direction of the contact normal.
+
+        A signal that gets emitted when the \c BoxCollider of the left border detects a collision.
+        This means that player 2 is the winner.
+     */
     signal beginContactWithLeftBorder(other: Fixture, contactNormal: point)
+
+    /*!
+        \qmlsignal beginContactWithRightBorder(Fixture other, point contactNormal)
+
+        \a other         The fixture of the other colliding body.
+        \a contactNormal The direction of the contact normal.
+
+        A signal that gets emitted when the \c BoxCollider of the right border detects a collision.
+        This means that player 1 is the winner.
+     */
     signal beginContactWithRightBorder(other: Fixture, contactNormal: point)
 
     // Make a rectangle as big as the scene, with the same color
