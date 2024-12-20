@@ -20,7 +20,24 @@ SceneBase {
 
     readonly property int paddleHorizontalMargin : 5
 
+    signal gameEnded(winner: string)
+
+    // The game will have 3 states:
+    //
+    //  (todo)
+    //  * wait: The ball won't move. The game starts after both player move the
+    //  paddle (meaning they're ready).
+    //
+    //  * play: Actual game.
+    //
+    //  * gameEnded: Either player failed to catch the ball, meaning the other
+    //  player wins.
+    property string gameState: "play"
+
     PhysicsWorld {
+        // The physics simulation will only be running in "play" mode.
+        running: gameState === "play"
+
         debugDrawVisible: true
         z: 1000
     }
@@ -48,60 +65,11 @@ SceneBase {
         p2Score: parent.p2Score
         p2Name: parent.p2Name
 
-        // Make top wall bounceable
-        BoxCollider {
-            id: topWallEntity
-            bodyType: Body.Static
-            anchors.top: field.playField.top
-            anchors.bottom: field.top
+        onBeginContactWithTopWall:    { ball.bounce(contactNormal, 1); }
+        onBeginContactWithBottomWall: { ball.bounce(contactNormal, 1); }
 
-            fixture.onBeginContact: {
-                ball.bounce(contactNormal, 1);
-            }
-        }
-
-        // Make bottom wall bounceable
-        BoxCollider {
-            id: bottomWallEntity
-            bodyType: Body.Static
-            anchors.top:    field.playField.bottom
-            anchors.bottom: field.bottom
-
-            fixture.onBeginContact: {
-                ball.bounce(contactNormal, 1);
-            }
-        }
-
-        // Make bottom wall bounceable
-        BoxCollider {
-            id: p1LoseCollider
-            bodyType: Body.Static
-            anchors.top:    field.playField.top
-            anchors.bottom: field.playField.bottom
-            anchors.left:   field.left
-            width: 1
-
-            fixture.onBeginContact: {
-                console.log("P1 loses")
-                console.log("P2 wins")
-            }
-        }
-
-
-        // Make bottom wall bounceable
-        BoxCollider {
-            id: p2LoseCollider
-            bodyType: Body.Static
-            anchors.top:    field.playField.top
-            anchors.bottom: field.playField.bottom
-            anchors.right:  field.right
-            width: 1
-
-            fixture.onBeginContact: {
-                console.log("P1 wins")
-                console.log("P2 loses")
-            }
-        }
+        onBeginContactWithRightBorder: { gameScene.playerWins(gameScene.p1Name); }
+        onBeginContactWithLeftBorder:  { gameScene.playerWins(gameScene.p2Name); }
 
         //infoVisible: false
     }
@@ -138,8 +106,25 @@ SceneBase {
         id: ball
         entityId: "ball"
 
-        x: 100
-        y: 150
+        x: field.playFieldCenterY
+        y: field.playFieldCenterX
+    }
+
+    function playerWins(winner) {
+        console.log(winner + " wins!");
+        if (winner === gameScene.p1Name)
+        {
+            ++gameScene.p1Score;
+        }
+        else if (winner === gameScene.p2Name)
+        {
+            ++gameScene.p2Score;
+        }
+
+        gameScene.gameState = "gameEnded";
+
+        // Emit the signal
+        gameScene.gameEnded(winner);
     }
 
 

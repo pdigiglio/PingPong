@@ -1,3 +1,4 @@
+import Felgo 3.0
 import QtQuick 2.0
 
 Item {
@@ -14,7 +15,7 @@ Item {
     //readonly property int playFieldRightX: playField.x + playField.width
 
     readonly property int playFieldCenterY: playField.y + playField.height / 2
-    //readonly property int playFieldCenterX: playField.x + playField.width  / 2
+    readonly property int playFieldCenterX: playField.x + playField.width  / 2
 
     property bool infoVisible : true
 
@@ -28,6 +29,11 @@ Item {
 
     property int p2Score : 0
     property string p2Name: "PL2"
+
+    signal beginContactWithTopWall(other: Fixture, contactNormal: point)
+    signal beginContactWithBottomWall(other: Fixture, contactNormal: point)
+    signal beginContactWithLeftBorder(other: Fixture, contactNormal: point)
+    signal beginContactWithRightBorder(other: Fixture, contactNormal: point)
 
     // Make a rectangle as big as the scene, with the same color
     // as the line. I'll draw another rectangle on top with a bit
@@ -72,6 +78,58 @@ Item {
                 width: field.lineWidth
                 color: lineColor
             }
+        }
+    }
+
+    // Make top wall bounceable
+    BoxCollider {
+        id: topWallEntity
+        bodyType: Body.Static
+        anchors.top: field.playField.top
+        anchors.bottom: field.top
+
+        fixture.onBeginContact: {
+            field.beginContactWithTopWall(other, contactNormal);
+        }
+    }
+
+    // Make bottom wall bounceable
+    BoxCollider {
+        id: bottomWallEntity
+        bodyType: Body.Static
+        anchors.top:    field.playField.bottom
+        anchors.bottom: field.bottom
+
+        fixture.onBeginContact: {
+            field.beginContactWithBottomWall(other, contactNormal);
+        }
+    }
+
+    // Make bottom wall bounceable
+    BoxCollider {
+        id: p1LoseCollider
+        bodyType: Body.Static
+        anchors.top:    field.playField.top
+        anchors.bottom: field.playField.bottom
+        anchors.left:   field.left
+        width: 1
+
+        fixture.onBeginContact: {
+            field.beginContactWithLeftBorder(other, contactNormal);
+        }
+    }
+
+    // Make bottom wall bounceable
+    BoxCollider {
+        id: p2LoseCollider
+        bodyType: Body.Static
+        anchors.top:    field.playField.top
+        anchors.bottom: field.playField.bottom
+        anchors.right:  field.right
+        width: 1
+
+        fixture.onBeginContact: {
+            field.beginContactWithRightBorder(other, contactNormal);
         }
     }
 

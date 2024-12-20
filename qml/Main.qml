@@ -4,6 +4,13 @@ import QtQuick 2.0
 import "scenes"
 import "game" as Game
 
+// TODO
+//  1. Add a new scene: "winner wins" continue|goto menu
+//  2. Fill in the credit page
+//  3. start ball with random velocity
+//  4. Improve the way I clamp the velocity
+//  5. clean up files I don't need
+
 GameWindow {
     id: window
     screenWidth: 960
@@ -53,10 +60,11 @@ GameWindow {
         onBackButtonPressed: window.state = "menu"
     }
 
-    // game scene to play a level
+    // Game scene to play
     Game.GameScene {
         id: gameScene
-        onBackButtonPressed: window.state = "selectLevel"
+        onBackButtonPressed: window.state = "menu"
+        onGameEnded:         window.state = "gameEnded"
     }
 
     // menuScene is our first scene, so set the state to menu initially
@@ -67,6 +75,11 @@ GameWindow {
     states: [
         State {
             name: "menu"
+            PropertyChanges {target: menuScene; opacity: 1}
+            PropertyChanges {target: window; activeScene: menuScene}
+        },
+        State {
+            name: "gameEnded"
             PropertyChanges {target: menuScene; opacity: 1}
             PropertyChanges {target: window; activeScene: menuScene}
         },
