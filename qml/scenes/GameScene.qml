@@ -1,7 +1,9 @@
 import Felgo 3.0
 import QtQuick 2.0
 import QtQuick 2.15
+
 import "../common"
+import "../game"
 
 SceneBase {
     id: gameScene

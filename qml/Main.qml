@@ -66,7 +66,7 @@ GameWindow {
     }
 
     // Game scene to play
-    Game.GameScene {
+    GameScene {
         id: gameScene
         onBackButtonPressed: window.state = "menu"
         onGameEnded: {
