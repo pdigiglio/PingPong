@@ -3,6 +3,12 @@ import QtQuick 2.15 // For DragHandler
 import Felgo 3.0
 
 
+/*!
+    \qmltype Paddle
+    \inqmlmodule Game
+
+    A component representing a paddle.
+ */
 EntityBase {
     id: paddleEntity
     entityType: "paddle"
@@ -10,9 +16,31 @@ EntityBase {
     height: 75
     width : 15
 
+
+    /*!
+        \qmlproperty int dragMinimumY
+
+        The minimum value of \c y the paddle can be dragged to.
+        The top of the playfield is a sensible value.
+     */
     property int dragMinimumY: 0
+
+    /*!
+        \qmlproperty int dragMaximumY
+
+        The maximum value of \c y the paddle can be dragged to.
+        The top of the playfield is a sensible value.
+     */
     property int dragMaximumY: 0
 
+    /*!
+        \qmlsignal beginContact(Fixture other, point contactNormal)
+
+        \a other         The fixture of the other colliding body.
+        \a contactNormal The direction of the contact normal.
+
+        A signal that gets emitted when the \c BoxCollider detects a collision.
+     */
     signal beginContact(other: Fixture, contactNormal: point)
 
     Rectangle {
