@@ -33,7 +33,7 @@ SceneBase {
         spacing: 10
         MenuButton {
             text: "Keep Playing"
-            onClicked: keepPlayingButtonPressed()()
+            onClicked: keepPlayingButtonPressed()
             anchors.horizontalCenter: parent.horizontalCenter
         }
         MenuButton {
