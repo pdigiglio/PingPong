@@ -5,35 +5,96 @@ import QtQuick 2.15
 import "../common"
 import "../game"
 
+/*!
+    \qmltype GameScene
+    \inqmlmodule Scenes
+
+    The scene where the actual game happens.
+ */
 SceneBase {
     id: gameScene
 
+    /*!
+        \qmlproperty int p1Score
+
+        The score of the first player.
+     */
     property int p1Score:  0
+
+    /*!
+        \qmlproperty string p1Name
+
+        The name of the first player.
+     */
     property string p1Name: "PL1"
 
+    /*!
+        \qmlproperty int p2Score
+
+        The score of the second player.
+     */
     property int p2Score:  0
+
+    /*!
+        \qmlproperty string p2Name
+
+        The name of the second player.
+     */
     property string p2Name: "PL2"
 
+    /*!
+        \qmlproperty string lineColor
+
+        The color of the field line.
+     */
     property string lineColor : "yellow"
+
+    /*!
+        \qmlproperty string fieldColor
+
+        The color of the field.
+     */
     property string fieldColor: "#47688e"
 
-    // The width of the lines to be drawn on the field.
+    /*!
+        \qmlproperty int fieldLineWidth
+
+        The width of the lines to be drawn on the field.
+     */
     property int fieldLineWidth : 10
 
+    /*!
+        \qmlproperty int paddleHorizontalMargin
+
+        The horizontal distence (in pixel) of the paddle from either
+        side of the field.
+     */
     readonly property int paddleHorizontalMargin : 5
 
+    /*!
+        \qmlsignal gameEnded(string winner)
+
+        \a winner The name of the winner.
+
+        A signal that gets emitted when the game ends (i.e. one of the players
+        is not able to catch the ball).
+     */
     signal gameEnded(winner: string)
 
-    // The game will have 3 states:
-    //
-    //  (todo)
-    //  * wait: The ball won't move. The game starts after both player move the
-    //  paddle (meaning they're ready).
-    //
-    //  * play: Actual game.
-    //
-    //  * gameEnded: Either player failed to catch the ball, meaning the other
-    //  player wins.
+    /*!
+        \qmlproperty string gameState
+
+        The game will have 3 states:
+
+         (todo)
+         * wait: The ball won't move. The game starts after both player move the
+         paddle (meaning they're ready).
+
+         * play: Actual game.
+
+         * gameEnded: Either player failed to catch the ball, meaning the other
+         player wins.
+     */
     property string gameState: "play"
 
     PhysicsWorld {
@@ -112,6 +173,15 @@ SceneBase {
         y: field.playFieldCenterX
     }
 
+    /*!
+        \qmlmethod playerWins(string winner)
+
+        Handle the event where either player wins.
+
+        This handler will update the scores of the plaers, change the scene
+        state and signal that the game has handed for other components to
+        react.
+     */
     function playerWins(winner) {
         console.log(winner + " wins!");
         if (winner === gameScene.p1Name)
@@ -129,11 +199,23 @@ SceneBase {
         gameScene.gameEnded(winner);
     }
 
+    /*!
+        \qmlmethod resetScores()
+
+        Reset the scores, tipically before starting a new game.
+     */
     function resetScore() {
         gameScene.p1Score = 0;
         gameScene.p2Score = 0;
     }
 
+    /*!
+        \qmlmethod playNewGame()
+
+        Play a new game.
+
+        Reset the position of the ball and the paddles. The score is not reset.
+     */
     function playNewGame() {
         ball.x = field.playFieldCenterY;
         ball.y = field.playFieldCenterX;
