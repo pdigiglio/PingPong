@@ -3,28 +3,51 @@ import QtQuick 2.0
 import "../common" as Common
 
 /*!
-  A text box to display player information (e.g. name and score) in the game scene.
+    \qmltype InfoText
+    \inqmlmodule Game
+
+    A text box to display player information (e.g. name or score) in the game scene.
  */
 Item {
     id: infoText
 
-    // this will be the default size, it is same size as the contained text + some padding
+    // This will be the default size, it is same size as the contained text + some padding
     width:  text.width  + 2 * paddingHorizontal
     height: text.height + 2 * paddingVertical
 
-    // Allow setting my color from outside.
+    /*!
+        \qmlproperty string color
+
+        The text color.
+     */
     property alias color: text.color
 
-    // Allow setting my text from outside.
+    /*!
+        \qmlproperty string text
+
+        The text string.
+     */
     property alias text : text.text
 
-    // Allow setting my opacity from outside.
+    /*!
+        \qmlproperty real textOpacity
+
+        The text opacity.
+     */
     property alias textOpacity : text.opacity
 
-    // the horizontal margin from the Text element to the Rectangle at both the left and the right side.
+    /*!
+        \qmlproperty int paddingHorizontal
+
+        The horizontal margin from the Text element to the Rectangle at both the left and the right side.
+     */
     property int paddingHorizontal: 10
 
-    // the vertical margin from the Text element to the Rectangle at both the top and the bottom side.
+    /*!
+        \qmlproperty int paddingVertical
+
+        The vertical margin from the Text element to the Rectangle at both the top and the bottom side.
+     */
     property int paddingVertical: 5
 
     Common.RetroText {
