@@ -35,7 +35,7 @@ EntityBase {
         friction: 0
     }
 
-    function bounce(contactNormal, increase= 1) {
+    function bounce(contactNormal, increase = 1) {
         console.log("contactNormal: " + contactNormal);
         console.log("my old vel: " + Qt.point(vx, vy));
 
@@ -53,5 +53,12 @@ EntityBase {
 
         boxCollider.linearVelocity = Qt.point(ballEntity.vx, ballEntity.vy);
         console.log("my new vel: " + boxCollider.linearVelocity);
+    }
+
+    function initVelocity() {
+        ballEntity.vx = -30;
+        ballEntity.vy = 60;
+
+        boxCollider.linearVelocity = Qt.point(ballEntity.vx, ballEntity.vy);
     }
 }

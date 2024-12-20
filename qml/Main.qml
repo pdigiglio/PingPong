@@ -33,7 +33,12 @@ GameWindow {
     MenuScene {
         id: menuScene
 
-        onPlayPressed:    window.state = "game"
+        onPlayPressed: {
+            gameScene.resetScore();
+            gameScene.playNewGame();
+            window.state = "game"
+        }
+
         onCreditsPressed: window.state = "credits"
         // the menu scene is our start scene, so if back is pressed there we ask the user if he wants to quit the application
         onBackButtonPressed: {
@@ -73,8 +78,13 @@ GameWindow {
     GameEndedScene {
         id: gameEndedScene
 
-        onKeepPlayingButtonPressed : window.state = "menu"
-        onBackButtonPressed:         window.state = "menu"
+        onKeepPlayingButtonPressed: {
+            // Play new game without resetting the score.
+            gameScene.playNewGame();
+            window.state = "game";
+        }
+
+        onBackButtonPressed: window.state = "menu"
     }
 
     // menuScene is our first scene, so set the state to menu initially

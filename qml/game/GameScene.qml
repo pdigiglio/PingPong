@@ -127,6 +127,22 @@ SceneBase {
         gameScene.gameEnded(winner);
     }
 
+    function resetScore() {
+        gameScene.p1Score = 0;
+        gameScene.p2Score = 0;
+    }
+
+    function playNewGame() {
+        ball.x = field.playFieldCenterY;
+        ball.y = field.playFieldCenterX;
+        ball.initVelocity();
+
+        p1Paddle.y = field.playFieldCenterY - p1Paddle.height / 2;
+        p2Paddle.y = field.playFieldCenterY - p2Paddle.height / 2;
+
+        gameScene.gameState = "play";
+    }
+
 
     //// the filename of the current level gets stored here, it is used for loading the
     //property string activeLevelFileName
