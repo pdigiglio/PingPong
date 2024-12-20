@@ -11,9 +11,6 @@ Item {
     readonly property int playFieldTopY:    playField.y
     readonly property int playFieldBottomY: playField.y + playField.height
 
-    //readonly property int playFieldLeftX:  playField.x
-    //readonly property int playFieldRightX: playField.x + playField.width
-
     readonly property int playFieldCenterY: playField.y + playField.height / 2
     readonly property int playFieldCenterX: playField.x + playField.width  / 2
 
@@ -56,6 +53,32 @@ Item {
         anchors.bottomMargin: parent.lineWidth
 
         color: parent.fieldColor
+    }
+
+    // Draw a line to the left of the playfield. This line may be
+    // hidden on some screens (but it's fine).
+    Rectangle {
+        id: leftLine
+
+        anchors.left:   parent.right
+        anchors.top:    parent.top
+        anchors.bottom: parent.bottom
+
+        width: parent.lineWidth
+        color: parent.lineColor
+    }
+
+    // Draw a line to the right of the playfield. This line may be
+    // hidden on some screens (but it's fine).
+    Rectangle {
+        id: rightLine
+
+        anchors.right:  parent.left
+        anchors.top:    parent.top
+        anchors.bottom: parent.bottom
+
+        width: parent.lineWidth
+        color: parent.lineColor
     }
 
     // Draw a vertical dashed line to visually separate the field

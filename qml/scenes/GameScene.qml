@@ -44,10 +44,10 @@ SceneBase {
         z: 1000
     }
 
-    // background (debugging only)
+    // Background (this will fill the screen outside of the field)
     Rectangle {
         anchors.fill: parent.gameWindowAnchorItem
-        color: "red"
+        color: parent.fieldColor
     }
 
     // Draw the playing field. Make sure to insert this before
