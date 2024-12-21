@@ -4,13 +4,6 @@ import QtQuick 2.0
 import "scenes"
 import "game" as Game
 
-// TODO
-//  1. Add a new scene: "winner wins" continue|goto menu
-//  2. Fill in the credit page
-//  3. start ball with random velocity
-//  4. Improve the way I clamp the velocity
-//  5. clean up files I don't need
-
 GameWindow {
     id: window
     screenWidth: 960

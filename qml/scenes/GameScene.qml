@@ -101,8 +101,8 @@ SceneBase {
         // The physics simulation will only be running in "play" mode.
         running: gameState === "play"
 
-        debugDrawVisible: true
-        z: 1000
+        //debugDrawVisible: true
+        //z: 1000
     }
 
     // Background (this will fill the screen outside of the field)
