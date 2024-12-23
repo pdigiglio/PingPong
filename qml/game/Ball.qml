@@ -72,14 +72,17 @@ EntityBase {
         if (contactNormal.y !== 0)
             ballEntity.vy = -ballEntity.vy;
 
-        // Fix this: make sure that the module does not exceed a certain limit.
-        var min = -300;
-        var max =  300;
-        ballEntity.vx = Math.min(Math.max(increase * ballEntity.vx, min), max);
-        ballEntity.vy = Math.min(Math.max(increase * ballEntity.vy, min), max);
+        // Make sure the module of the velocity is at most maxVelocityModule.
+        var maxVelocityModule = 400;
+        var v = increase * Math.hypot(ballEntity.vx, ballEntity.vy);
+        if (v > maxVelocityModule)
+            increase *= maxVelocityModule / v;
+
+        ballEntity.vx *= increase;
+        ballEntity.vy *= increase;
 
         boxCollider.linearVelocity = Qt.point(ballEntity.vx, ballEntity.vy);
-        console.log("my new vel: " + boxCollider.linearVelocity);
+        console.log("my new vel: " + boxCollider.linearVelocity + "; ; |.|: ", Math.hypot(ballEntity.vx, ballEntity.vy));
     }
 
     /*!
