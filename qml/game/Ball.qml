@@ -16,18 +16,25 @@ EntityBase {
     width : 15
 
     /*!
-        \qmlproperty int vx
+        \qmlproperty real vx
 
         The ball velocity along the \c x axis.
      */
-    property int vx: -30
+    property real vx: -30
 
     /*!
-        \qmlproperty int vy
+        \qmlproperty real vy
 
         The ball velocity along the \c y axis.
      */
-    property int vy: 60
+    property real vy: 60
+
+    /*!
+        \qmlproperty real maxVelocityModule
+
+        The maximum velocity of the ball.
+     */
+    readonly property real maxVelocityModule: 400;
 
     Rectangle {
         id: rectangle
@@ -73,8 +80,7 @@ EntityBase {
             ballEntity.vy = -ballEntity.vy;
 
         // Make sure the module of the velocity is at most maxVelocityModule.
-        var maxVelocityModule = 400;
-        increase = this.getClampedIncrease(maxVelocityModule, increase, ballEntity.vx, ballEntity.vy);
+        increase = this.getClampedIncrease(increase, ballEntity.vx, ballEntity.vy);
 
         ballEntity.vx *= increase;
         ballEntity.vy *= increase;
@@ -89,17 +95,47 @@ EntityBase {
         Returns a multiplicative factor for the velocity such that its
         module does not exceed \c maxVelocityModule.
     */
-    function getClampedIncrease(maxVelocityModule, increase, vx, vy) {
+    function getClampedIncrease(increase: real, vx: real, vy: real)
+    {
         var v = increase * Math.hypot(vx, vy);
-        if (v > maxVelocityModule)
+        if (v > this.maxVelocityModule)
         {
-            var clampedIncrease = increase * maxVelocityModule / v;
-            //console.log("increase: " + increase + " -> " + clampedIncrease);
+            var clampedIncrease = increase * this.maxVelocityModule / v;
             increase = clampedIncrease;
         }
 
         return increase;
     }
+
+    /*!
+        \qmlmethod generateRandomVelocity
+
+        Return a velocity whose module is \c velocityModule. The velocity quadrant
+        is chosen at random. The angle of the velocity is also chosen at random in
+        the range [30 deg, 60 deg].
+    */
+    function generateRandomVelocity(velocityModule: real) {
+        var minAngle = Math.PI / 6;
+        var maxAngle = Math.PI / 3;
+        console.assert(minAngle <= maxAngle, "min angle greater than max angle");
+
+        // Generate a random angle in range [minAngle, maxAngle].
+        // Note: Math.random() returns a number in [0, 1].
+        var randomAngle = minAngle + (maxAngle - minAngle) * Math.random();
+
+        // Generate random signs.
+        var xSign = (Math.random() < 0.5) ? -1 : +1;
+        var ySign = (Math.random() < 0.5) ? -1 : +1;
+
+        velocityModule = Math.min(velocityModule, this.maxVelocityModule);
+        var v = Qt.point(
+            velocityModule * xSign * Math.cos(randomAngle),
+            velocityModule * ySign * Math.sin(randomAngle));
+
+        console.log("Initial ball velocity: " + v + " with angle: " + randomAngle + " rad");
+        return v;
+    }
+
 
     /*!
         \qmlmethod initVelocity()
@@ -108,9 +144,10 @@ EntityBase {
         call this method when starting a new game.
      */
     function initVelocity() {
-        ballEntity.vx = -30;
-        ballEntity.vy = 60;
+        var v = this.generateRandomVelocity(75);
 
-        boxCollider.linearVelocity = Qt.point(ballEntity.vx, ballEntity.vy);
+        ballEntity.vx = v.x;
+        ballEntity.vy = v.y;
+        boxCollider.linearVelocity = v;
     }
 }
