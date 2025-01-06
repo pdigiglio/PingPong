@@ -70,23 +70,23 @@ EntityBase {
         // the colliding objects is of type Body.Static. So I store (and
         // operate on) two more variables (i.e. vx, vy) for the velocity.
 
-        console.log("contactNormal: " + contactNormal);
-        console.log("my old vel: " + Qt.point(vx, vy));
+        console.log("Contact normal: " + contactNormal);
+        console.log("Ball velocity before contact: " + Qt.point(this.vx, this.vy));
 
         if (contactNormal.x !== 0)
-            ballEntity.vx = -ballEntity.vx;
+            this.vx = -this.vx;
 
         if (contactNormal.y !== 0)
-            ballEntity.vy = -ballEntity.vy;
+            this.vy = -this.vy;
 
         // Make sure the module of the velocity is at most maxVelocityModule.
-        increase = this.getClampedIncrease(increase, ballEntity.vx, ballEntity.vy);
+        increase = this.getClampedIncrease(increase, this.vx, this.vy);
 
-        ballEntity.vx *= increase;
-        ballEntity.vy *= increase;
+        this.vx *= increase;
+        this.vy *= increase;
 
-        boxCollider.linearVelocity = Qt.point(ballEntity.vx, ballEntity.vy);
-        console.log("my new vel: " + boxCollider.linearVelocity + ";  |.|: ", Math.hypot(ballEntity.vx, ballEntity.vy));
+        boxCollider.linearVelocity = Qt.point(this.vx, this.vy);
+        console.log("Ball velocity after contact: " + boxCollider.linearVelocity + "; |.|: ", Math.hypot(this.vx, this.vy));
     }
 
     /*!
@@ -143,8 +143,8 @@ EntityBase {
     function initVelocity() {
         var v = this.generateRandomVelocity(75);
 
-        ballEntity.vx = v.x;
-        ballEntity.vy = v.y;
+        this.vx = v.x;
+        this.vy = v.y;
         boxCollider.linearVelocity = v;
 
         console.log("Initial ball velocity: " + v);
