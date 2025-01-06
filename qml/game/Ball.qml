@@ -74,15 +74,31 @@ EntityBase {
 
         // Make sure the module of the velocity is at most maxVelocityModule.
         var maxVelocityModule = 400;
-        var v = increase * Math.hypot(ballEntity.vx, ballEntity.vy);
-        if (v > maxVelocityModule)
-            increase *= maxVelocityModule / v;
+        increase = this.getClampedIncrease(maxVelocityModule, increase, ballEntity.vx, ballEntity.vy);
 
         ballEntity.vx *= increase;
         ballEntity.vy *= increase;
 
         boxCollider.linearVelocity = Qt.point(ballEntity.vx, ballEntity.vy);
-        console.log("my new vel: " + boxCollider.linearVelocity + "; ; |.|: ", Math.hypot(ballEntity.vx, ballEntity.vy));
+        console.log("my new vel: " + boxCollider.linearVelocity + ";  |.|: ", Math.hypot(ballEntity.vx, ballEntity.vy));
+    }
+
+    /*!
+        \qmlmethod getClampedIncrease
+
+        Returns a multiplicative factor for the velocity such that its
+        module does not exceed \c maxVelocityModule.
+    */
+    function getClampedIncrease(maxVelocityModule, increase, vx, vy) {
+        var v = increase * Math.hypot(vx, vy);
+        if (v > maxVelocityModule)
+        {
+            var clampedIncrease = increase * maxVelocityModule / v;
+            //console.log("increase: " + increase + " -> " + clampedIncrease);
+            increase = clampedIncrease;
+        }
+
+        return increase;
     }
 
     /*!
