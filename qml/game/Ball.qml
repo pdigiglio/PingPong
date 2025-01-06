@@ -108,7 +108,7 @@ EntityBase {
     }
 
     /*!
-        \qmlmethod generateRandomVelocity
+        \qmlmethod generateRandomVelocity(real velocityModule)
 
         Return a velocity whose module is \c velocityModule. The velocity quadrant
         is chosen at random. The angle of the velocity is also chosen at random in
@@ -132,16 +132,13 @@ EntityBase {
             velocityModule * xSign * Math.cos(randomAngle),
             velocityModule * ySign * Math.sin(randomAngle));
 
-        console.log("Initial ball velocity: " + v + " with angle: " + randomAngle + " rad");
         return v;
     }
-
 
     /*!
         \qmlmethod initVelocity()
 
-        Set initial kinematic parameters for the ball. The user is supposed to
-        call this method when starting a new game.
+        Set initial kinematic parameters for the ball.
      */
     function initVelocity() {
         var v = this.generateRandomVelocity(75);
@@ -149,5 +146,52 @@ EntityBase {
         ballEntity.vx = v.x;
         ballEntity.vy = v.y;
         boxCollider.linearVelocity = v;
+
+        console.log("Initial ball velocity: " + v);
+    }
+
+    /*!
+        \qmlmethod generateRandomPos(rect fieldArea)
+
+        Return a position whose \c x is in the middle of \c fieldArea and whose
+        \c y is chosen at random within \c fieldArea.
+    */
+    function generateRandomPos(fieldArea: Qt.rect) {
+        var yMax = fieldArea.y + fieldArea.height - this.height;
+        var yMin = fieldArea.y;
+
+        var ballHalfWidth = this.width / 2;
+        var fieldHalfWidth = fieldArea.width / 2;
+
+        var pos = Qt.point(
+            // Always start in x-center.
+            fieldArea.x + fieldHalfWidth - ballHalfWidth,
+            // Generate random y (within the field).
+            yMin + (yMax - yMin) * Math.random());
+
+        return pos;
+    }
+
+    /*!
+        \qmlmethod initPosition(rect fieldArea)
+
+        Set the initial position of the ball within \c fieldArea.
+     */
+    function initPosition(fieldArea: Qt.rect) {
+        var initPos = this.generateRandomPos(fieldArea);
+        this.x = initPos.x;
+        this.y = initPos.y;
+
+        console.log("Initial ball position: " + initPos);
+    }
+
+    /*!
+        \qmlmethod init(rect fieldArea)
+
+        Initialize the ball within the \c fieldArea before starting a new game.
+     */
+    function init(fieldArea: Qt.rect) {
+        this.initPosition(fieldArea);
+        this.initVelocity();
     }
 }

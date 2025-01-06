@@ -217,9 +217,9 @@ SceneBase {
         Reset the position of the ball and the paddles. The score is not reset.
      */
     function playNewGame() {
-        ball.x = field.playFieldCenterX;
-        ball.y = field.playFieldCenterY;
-        ball.initVelocity();
+        var playField = field.playField;
+        var playFieldRect = Qt.rect(playField.x, playField.y, playField.width, playField.height);
+        ball.init(playFieldRect);
 
         p1Paddle.y = field.playFieldCenterY - p1Paddle.height / 2;
         p2Paddle.y = field.playFieldCenterY - p2Paddle.height / 2;
