@@ -217,8 +217,8 @@ SceneBase {
         Reset the position of the ball and the paddles. The score is not reset.
      */
     function playNewGame() {
-        ball.x = field.playFieldCenterY;
-        ball.y = field.playFieldCenterX;
+        ball.x = field.playFieldCenterX;
+        ball.y = field.playFieldCenterY;
         ball.initVelocity();
 
         p1Paddle.y = field.playFieldCenterY - p1Paddle.height / 2;
